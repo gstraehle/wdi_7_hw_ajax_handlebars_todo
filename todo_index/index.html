@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="css/simple.css" rel="stylesheet" type="text/css"></link>
+  <script src="js/jquery.js"></script>
+  <script src="js/ajax_global_handlers.js"></script>
+  <script src='js/handlebars-v1.3.0.js'></script>
+
+
+  <script>
+    $(document).ready(function(){
+      alert('Ready');
+      });
+    $.ajax({
+      url: 'http://localhost:3000/todos'
+
+    }).done(alert('Even More Ready'));
+
+
+  </script>
+</head>
+
+<body>
+  <h3>Todos!</h3>
+
+
+  <div id='msg'>
+  <div>
+
+</body>
+
+</html>
