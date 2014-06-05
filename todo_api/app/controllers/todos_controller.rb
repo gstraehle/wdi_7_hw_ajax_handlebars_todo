@@ -32,7 +32,7 @@ class TodosController < ApplicationController
   def update
     @todo = Todo.find(params[:id])
 
-    if @todo.update(params[:todo])
+    if @todo.update(todo_params)
       head :no_content
     else
       render json: @todo.errors, status: :unprocessable_entity
@@ -50,6 +50,6 @@ class TodosController < ApplicationController
   private
 
   def todo_params
-    params.require(:todo).permit(:todo_item, :todo_status)
+    params.require(:todo).permit(:todo_item, :todo_status, :id)
   end
 end

@@ -61,6 +61,19 @@
           $('#' + deleteID).remove();
       });
     });
+      $('#todos').on('click', '.complete', function(event){
+        var completeID = this.id;
+        $.ajax({
+          url: 'http://localhost:3000/todos/' + completeID,
+          type:'PUT',
+          data: {todo: {todo_status: true}},
+          crossDomain: true
+        }).done(console.log('yo'))
+
+          // .done(function(){
+          // $('#' + completeID).complete();
+      //});
+    });
   }); // end of document ready
 
 
