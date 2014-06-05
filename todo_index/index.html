@@ -8,15 +8,23 @@
 
 
   <script>
+
+    function reply_click(clicked_id){
+      alert(clicked_id);
+    }
+    //var result = clicked_id;
+
     $(document).ready(function(){
+
+
       var allTodosCallback = function(todos){
         todos.forEach(function(todo){
           var todoHTML = $('<tr>');
           todoHTML.append($('<td>').text(todo.todo_item));
           todoHTML.append($('<td>').text(todo.created_at));
           todoHTML.append($('<td>').text(todo.todo_status));
-          todoHTML.append($("<input type='button' value='remove'>").attr('id', todo.id));
-          if (todo.todo_status) todoHTML.append($("<input type='button' value='complete'>").attr('id', todo.id));
+          todoHTML.append($("<input type='button' value='remove' onClick='reply_click(this.id)'>").attr('id', todo.id));
+          if (todo.todo_status) todoHTML.append($("<input type='button' value='complete' onClick='reply_click(this.id)''>").attr('id', todo.id));
           //todoHTML.append($("<input type='button' value='complete'>").attr('id', todo.id));
 
 
@@ -31,9 +39,7 @@
 
   $('#new-todo').submit(function(event) {
     var $form = $(event.target),
-        $todo_item = $form.find("input[name='todo_item']").val(),
-    action = $form.attr('action');
-
+        $todo_item = $form.find("input[name='todo_item']").val();
     event.preventDefault();
     $.ajax({
       url: 'http://localhost:3000/todos',
@@ -50,6 +56,28 @@
       }
     });
   });
+
+
+    // $delete_id = $form.find("input[name='todo_item']").val();
+    //   $.ajax({
+    //    url: 'http://localhost:3000/todos',
+    //    type: 'POST',
+    //    data: {todo: {todo_item: $todo_item, todo_status: false}},
+    //   success: function(todo){
+  //         var todoHTML = $('<tr>');
+  //         todoHTML.append($('<td>').text(todo.todo_item));
+  //         todoHTML.append($('<td>').text(todo.created_at));
+  //         todoHTML.append($('<td>').text(todo.todo_status));
+  //         todoHTML.append($("<input type='button' value='remove'>").attr('id', todo.id));
+  //         todoHTML.append($("<input type='button' value='complete'>").attr('id', todo.id));
+  //         $('#todos').append(todoHTML);
+  //     }
+  //   });
+  // });
+
+
+
+
 });
 
   </script>
