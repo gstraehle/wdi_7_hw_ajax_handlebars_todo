@@ -27,6 +27,29 @@
     url: 'http://localhost:3000/todos'
 
   }).done(allTodosCallback);
+
+
+  $('#new-todo').submit(function(event) {
+    var $form = $(event.target),
+        $todo_item = $form.find("input[name='todo_item']").val(),
+    action = $form.attr('action');
+
+    event.preventDefault();
+    $.ajax({
+      url: 'http://localhost:3000/todos',
+      type: 'POST',
+      data: {todo: {todo_item: $todo_item, todo_status: false}},
+      success: function(todo){
+          var todoHTML = $('<tr>');
+          todoHTML.append($('<td>').text(todo.todo_item));
+          todoHTML.append($('<td>').text(todo.created_at));
+          todoHTML.append($('<td>').text(todo.todo_status));
+          todoHTML.append($("<input type='button' value='remove'>").attr('id', todo.id));
+          todoHTML.append($("<input type='button' value='complete'>").attr('id', todo.id));
+          $('#todos').append(todoHTML);
+      }
+    });
+  });
 });
 
   </script>
@@ -34,6 +57,12 @@
 
 <body>
   <h3>Todos!</h3>
+
+  <form id='new-todo' action='http://localhost:3000/todos'>
+    <input type='text' name='todo_item' placeholder='enter a new todo'>
+    <input type='submit' value='create'>
+  </form>
+
   <table id='todos'>
     <tr></tr>
   </table>

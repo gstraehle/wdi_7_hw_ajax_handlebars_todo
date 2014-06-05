@@ -18,7 +18,7 @@ class TodosController < ApplicationController
   # POST /todos
   # POST /todos.json
   def create
-    @todo = Todo.new(params[:todo])
+     @todo = Todo.new(todo_params)
 
     if @todo.save
       render json: @todo, status: :created, location: @todo
@@ -46,5 +46,10 @@ class TodosController < ApplicationController
     @todo.destroy
 
     head :no_content
+  end
+  private
+
+  def todo_params
+    params.require(:todo).permit(:todo_item, :todo_status)
   end
 end
