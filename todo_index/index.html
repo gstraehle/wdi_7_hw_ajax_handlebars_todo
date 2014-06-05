@@ -9,20 +9,26 @@
 
   <script>
     $(document).ready(function(){
-      alert('Ready');
-      });
-    $.ajax({
-      url: 'http://localhost:3000/todos'
+      var allTodosCallback = function(todos){
+        todos.forEach(function(todo){
+          var todoHTML = $("<td>").attr('id', todo.id).text(todo.todo_item);
+          $('#todos').append(todoHTML);
+        });
+      };
+  $.ajax({
+    url: 'http://localhost:3000/todos'
 
-    }).done(alert('Even More Ready'));
-
+  }).done(allTodosCallback);
+});
 
   </script>
 </head>
 
 <body>
   <h3>Todos!</h3>
-
+  <table>
+    <tr id='todos'></tr>
+  </table>
 
   <div id='msg'>
   <div>
