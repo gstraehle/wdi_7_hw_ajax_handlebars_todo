@@ -16,15 +16,12 @@
       var allTodosCallback = function(todos){
         // $('#todos').empty();
         todos.forEach(function(todo){
-          var todoHTML = $('<tr>');
+          var todoHTML = $('<tr>').attr('id', todo.id);
           todoHTML.append($('<td>').text(todo.todo_item));
           todoHTML.append($('<td>').text(todo.created_at));
           todoHTML.append($('<td>').text(todo.todo_status));
           todoHTML.append($("<input type='button' value='remove' class='remove'>").attr('id', todo.id));
           if (todo.todo_status) todoHTML.append($("<input type='button' value='complete' class='complete'>").attr('id', todo.id));
-
-
-
           $('#todos').append(todoHTML);
         });
       };
@@ -34,25 +31,23 @@
 
       }).done(allTodosCallback);
 
-
       $('#new-todo').submit(function(event) {
         var $form = $(event.target),
         $todo_item = $form.find("input[name='todo_item']").val();
         event.preventDefault();
-
         $.ajax({
           url: 'http://localhost:3000/todos',
           type: 'POST',
           data: {todo: {todo_item: $todo_item, todo_status: false}},
           success: function(todo){
-            var todoHTML = $('<tr>');
+            var todoHTML = $('<tr>').attr('id', todo.id);
             todoHTML.append($('<td>').text(todo.todo_item));
             todoHTML.append($('<td>').text(todo.created_at));
             todoHTML.append($('<td>').text(todo.todo_status));
             todoHTML.append($("<input type='button' value='remove' class='remove'>").attr('id', todo.id));
             todoHTML.append($("<input type='button' value='complete' class='complete'>").attr('id', todo.id));
             $('#todos').append(todoHTML);
-         }
+          }
         });
       });
 
@@ -60,11 +55,13 @@
         var deleteID = this.id;
         $.ajax({
           url: 'http://localhost:3000/todos/' + deleteID,
-          type: 'DELETE'
-        }).done(allTodosCallback);
+          type:'DELETE',
+          crossDomain: true
+        }).done(function(){
+          $('#' + deleteID).remove();
       });
-
-    }); // end of document ready
+    });
+  }); // end of document ready
 
 
 

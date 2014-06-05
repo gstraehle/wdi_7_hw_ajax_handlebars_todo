@@ -34,7 +34,7 @@ module TodoApi
         # WARNING: Allow ALL cross site scripting from ALL domains
         origins '*'
         # WARNING: Allow ALL HTTP method
-        resource '*', :headers => :any, :methods => [:get, :post, :options, :delete, :put]
+        resource '*', :headers => :any, :methods => [:get, :post, :delete, :put, :options]
       end
     end
   end
