@@ -11,7 +11,15 @@
     $(document).ready(function(){
       var allTodosCallback = function(todos){
         todos.forEach(function(todo){
-          var todoHTML = $("<td>").attr('id', todo.id).text(todo.todo_item);
+          var todoHTML = $('<tr>');
+          todoHTML.append($('<td>').text(todo.todo_item));
+          todoHTML.append($('<td>').text(todo.created_at));
+          todoHTML.append($('<td>').text(todo.todo_status));
+          todoHTML.append($("<input type='button' value='remove'>").attr('id', todo.id));
+          if (todo.todo_status) todoHTML.append($("<input type='button' value='complete'>").attr('id', todo.id));
+          //todoHTML.append($("<input type='button' value='complete'>").attr('id', todo.id));
+
+
           $('#todos').append(todoHTML);
         });
       };
@@ -26,8 +34,8 @@
 
 <body>
   <h3>Todos!</h3>
-  <table>
-    <tr id='todos'></tr>
+  <table id='todos'>
+    <tr></tr>
   </table>
 
   <div id='msg'>
