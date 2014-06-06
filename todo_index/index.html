@@ -8,40 +8,33 @@
 
 
   <script>
-
-
     $(document).ready(function(){
-
-
       var allTodosCallback = function(todos){
          $('#todos').empty();
         todos.forEach(function(todo){
           var todoHTML = $('<tr>').attr('id', todo.id);
           todoHTML.append($('<td>').text(todo.todo_item));
+          todoHTML.append($('<td>').text(todo.updated_at));
           todoHTML.append($('<td>').text(todo.created_at));
           todoHTML.append($("<input type='button' value='remove' class='remove'>").attr('id', todo.id));
           if (!todo.todo_status) todoHTML.append($("<input type='button' value='complete' class='complete'>").attr('id', todo.id));
           $('#todos').append(todoHTML);
         });
       };
-
       $.ajax({
         url: 'http://localhost:3000/todos'
-
       }).done(allTodosCallback);
 
       var todoCallback = function(todo){
         var todoHTML = $('<tr>').attr('id', todo.id);
         todoHTML.append($('<td>').text(todo.todo_item));
+        todoHTML.append($('<td>').text(todo.updated_at));
         todoHTML.append($('<td>').text(todo.created_at));
         todoHTML.append($("<input type='button' value='remove' class='remove'>").attr('id', todo.id));
         $('#todos').append(todoHTML);
       };
-
-
       $.ajax({
         url: 'http://localhost:3000/todos'
-
       }).done(allTodosCallback);
 
       $('#new-todo').submit(function(event) {
@@ -55,13 +48,13 @@
         }).done(function(todo){
           var todoHTML = $('<tr>').attr('id', todo.id);
           todoHTML.append($('<td>').text(todo.todo_item));
+          todoHTML.append($('<td>').text(todo.updated_at));
           todoHTML.append($('<td>').text(todo.created_at));
           todoHTML.append($("<input type='button' value='remove' class='remove'>").attr('id', todo.id));
           todoHTML.append($("<input type='button' value='complete' class='complete'>").attr('id', todo.id));
           $('#todos').append(todoHTML);
         });
       });
-
 
       $('#todos').on('click', '.remove', function(){
         var deleteID = this.id;
@@ -89,12 +82,8 @@
       });
     }); // end of document ready
 
-
-
-
   </script>
 </head>
-
 <body>
   <h3>Todos!</h3>
 
@@ -104,12 +93,15 @@
   </form>
 
   <table id='todos'>
-    <tr></tr>
+    <tr>
+      <td>Note</td>
+      <td>Created At</td>
+      <td>Updated At</td>
+    </tr>
   </table>
 
   <div id='msg'>
   <div>
 
 </body>
-
 </html>
