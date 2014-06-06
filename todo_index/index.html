@@ -26,7 +26,7 @@
       }).done(allTodosCallback);
 
       var todoCallback = function(todo){
-        var todoHTML = $('<tr>').attr('id', todo.id);
+        var todoHTML = $('<tr>').attr('id', todo.id).attr('class', 'green');
         todoHTML.append($('<td>').text(todo.todo_item));
         todoHTML.append($('<td>').text(todo.updated_at));
         todoHTML.append($('<td>').text(todo.created_at));
@@ -92,9 +92,15 @@
     <input type='submit' value='create'>
   </form>
 
-  <table id='todos'>
+  <table>
     <tr>
+      <td>Note</td>
+      <td>Updated At</td>
+      <td>Created At</td>
+      <td> </td>
     </tr>
+  </table>
+  <table id='todos'>
   </table>
 
   <div id='msg'>

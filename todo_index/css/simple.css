@@ -11,3 +11,17 @@
  margin-top: -50px;
  margin-left: -100px;
 }
+table {
+  width: 800px;
+  background: #ddd;
+  border: solid black 4px;
+}
+td {
+  width: 200px;
+}
+#todos {
+  background: white;
+}
+.green {
+  background: #f0fff0;
+}
