@@ -63,7 +63,7 @@
       });
 
 
-      $('#todos').on('click', '.remove', function(event){
+      $('#todos').on('click', '.remove', function(){
         var deleteID = this.id;
         $.ajax({
           url: 'http://localhost:3000/todos/' + deleteID,
@@ -73,15 +73,15 @@
           $('#' + deleteID).remove();
         });
       });
-      $('#todos').on('click', '.complete', function(event){
+      $('#todos').on('click', '.complete', function(){
         var completeID = this.id;
         $.ajax({
           url: 'http://localhost:3000/todos/' + completeID,
           type:'PUT',
           data: {todo: {todo_status: true}},
           crossDomain: true
-        }).done(function(event){
-          var removed = $('#' + completeID).remove();
+        }).done(function(){
+          $('#' + completeID).remove();
           $.ajax({
             url: 'http://localhost:3000/todos/' + completeID
           }).done(todoCallback);
