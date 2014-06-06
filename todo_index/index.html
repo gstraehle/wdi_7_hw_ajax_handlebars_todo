@@ -14,7 +14,7 @@
         todos.forEach(function(todo){
           var todoHTML = $('<tr>').attr('id', todo.id);
           todoHTML.append($('<td>').text(todo.todo_item));
-          todoHTML.append($('<td>').text(todo.updated_at));
+          (todo.todo_status) ? todoHTML.append($('<td>').text(todo.updated_at)) : todoHTML.append($('<td>').text("N/A"));
           todoHTML.append($('<td>').text(todo.created_at));
           todoHTML.append($("<input type='button' value='remove' class='remove'>").attr('id', todo.id));
           if (!todo.todo_status) todoHTML.append($("<input type='button' value='complete' class='complete'>").attr('id', todo.id));
@@ -48,7 +48,7 @@
         }).done(function(todo){
           var todoHTML = $('<tr>').attr('id', todo.id);
           todoHTML.append($('<td>').text(todo.todo_item));
-          todoHTML.append($('<td>').text(todo.updated_at));
+          (todo.todo_status) ? todoHTML.append($('<td>').text(todo.updated_at)) : todoHTML.append($('<td>').text("N/A"));
           todoHTML.append($('<td>').text(todo.created_at));
           todoHTML.append($("<input type='button' value='remove' class='remove'>").attr('id', todo.id));
           todoHTML.append($("<input type='button' value='complete' class='complete'>").attr('id', todo.id));
