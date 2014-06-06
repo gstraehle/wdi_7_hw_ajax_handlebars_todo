@@ -14,17 +14,30 @@
 
 
       var allTodosCallback = function(todos){
-        // $('#todos').empty();
+         $('#todos').empty();
         todos.forEach(function(todo){
           var todoHTML = $('<tr>').attr('id', todo.id);
           todoHTML.append($('<td>').text(todo.todo_item));
           todoHTML.append($('<td>').text(todo.created_at));
-          todoHTML.append($('<td>').text(todo.todo_status));
           todoHTML.append($("<input type='button' value='remove' class='remove'>").attr('id', todo.id));
-          if (todo.todo_status) todoHTML.append($("<input type='button' value='complete' class='complete'>").attr('id', todo.id));
+          if (!todo.todo_status) todoHTML.append($("<input type='button' value='complete' class='complete'>").attr('id', todo.id));
           $('#todos').append(todoHTML);
         });
       };
+
+      $.ajax({
+        url: 'http://localhost:3000/todos'
+
+      }).done(allTodosCallback);
+
+      var todoCallback = function(todo){
+        var todoHTML = $('<tr>').attr('id', todo.id);
+        todoHTML.append($('<td>').text(todo.todo_item));
+        todoHTML.append($('<td>').text(todo.created_at));
+        todoHTML.append($("<input type='button' value='remove' class='remove'>").attr('id', todo.id));
+        $('#todos').append(todoHTML);
+      };
+
 
       $.ajax({
         url: 'http://localhost:3000/todos'
@@ -38,18 +51,17 @@
         $.ajax({
           url: 'http://localhost:3000/todos',
           type: 'POST',
-          data: {todo: {todo_item: $todo_item, todo_status: false}},
-          success: function(todo){
-            var todoHTML = $('<tr>').attr('id', todo.id);
-            todoHTML.append($('<td>').text(todo.todo_item));
-            todoHTML.append($('<td>').text(todo.created_at));
-            todoHTML.append($('<td>').text(todo.todo_status));
-            todoHTML.append($("<input type='button' value='remove' class='remove'>").attr('id', todo.id));
-            todoHTML.append($("<input type='button' value='complete' class='complete'>").attr('id', todo.id));
-            $('#todos').append(todoHTML);
-          }
+          data: {todo: {todo_item: $todo_item, todo_status: false}}
+        }).done(function(todo){
+          var todoHTML = $('<tr>').attr('id', todo.id);
+          todoHTML.append($('<td>').text(todo.todo_item));
+          todoHTML.append($('<td>').text(todo.created_at));
+          todoHTML.append($("<input type='button' value='remove' class='remove'>").attr('id', todo.id));
+          todoHTML.append($("<input type='button' value='complete' class='complete'>").attr('id', todo.id));
+          $('#todos').append(todoHTML);
         });
       });
+
 
       $('#todos').on('click', '.remove', function(event){
         var deleteID = this.id;
@@ -59,8 +71,8 @@
           crossDomain: true
         }).done(function(){
           $('#' + deleteID).remove();
+        });
       });
-    });
       $('#todos').on('click', '.complete', function(event){
         var completeID = this.id;
         $.ajax({
@@ -68,13 +80,14 @@
           type:'PUT',
           data: {todo: {todo_status: true}},
           crossDomain: true
-        }).done(console.log('yo'))
-
-          // .done(function(){
-          // $('#' + completeID).complete();
-      //});
-    });
-  }); // end of document ready
+        }).done(function(event){
+          var removed = $('#' + completeID).remove();
+          $.ajax({
+            url: 'http://localhost:3000/todos/' + completeID
+          }).done(todoCallback);
+        });
+      });
+    }); // end of document ready
 
 
 
@@ -85,7 +98,7 @@
 <body>
   <h3>Todos!</h3>
 
-  <form id='new-todo' action='http://localhost:3000/todos'>
+  <form id='new-todo'>
     <input type='text' name='todo_item' placeholder='enter a new todo'>
     <input type='submit' value='create'>
   </form>
